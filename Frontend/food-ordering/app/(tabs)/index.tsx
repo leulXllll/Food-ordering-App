@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, ActivityIndicator, Dimensions } from 'react-native';
+
+import { View, Text, FlatList, StyleSheet, ActivityIndicator, useWindowDimensions } from 'react-native';
 import MenuItemCard from '../../components/MenuItemCard';
 import { menuItems } from '../../constants/MenuData';
 import Header from '@/components/Header';
-
-const screenWidth = Dimensions.get('window').width;
-const cardWidth = (screenWidth - 48) / 2; 
-
 import { StackNavigationProp } from '@react-navigation/stack';
 
 type RootStackParamList = {
   ItemDetail: { itemId: string };
 };
-
 type HomeScreenProps = {
   navigation: StackNavigationProp<RootStackParamList, 'ItemDetail'>;
 };
@@ -20,13 +16,17 @@ type HomeScreenProps = {
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [visibleItems, setVisibleItems] = useState<typeof menuItems>([]);
+  
+  const { width: screenWidth } = useWindowDimensions(); 
+  
+  
+  const cardWidth = (screenWidth - 48) / 2; 
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       setVisibleItems(menuItems);
       setIsLoading(false);
     }, 1500);
-
     return () => clearTimeout(timeout);
   }, []);
 
@@ -35,7 +35,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       title={item.title}
       image={item.image}
       price={item.price}
-      width={cardWidth}
+      width={cardWidth} 
       onPress={() => navigation.navigate('ItemDetail', { itemId: item.id })}
     />
   );
@@ -45,7 +45,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       <Header />
       <View style={styles.container}>
         <Text style={styles.header}>Menu</Text>
-
         {isLoading ? (
           <ActivityIndicator size="large" color="#ff6347" style={{ marginTop: 50 }} />
         ) : (

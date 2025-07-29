@@ -13,6 +13,7 @@ import { useLayoutEffect } from 'react';
 import { useNavigation } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 import { menuItems } from '@/constants/MenuData';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 const { width } = Dimensions.get('window');
 
@@ -40,13 +41,14 @@ export default function MenuItemDetailScreen() {
       {/* Header bar */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.headerIcon}>
-          <FontAwesome name="arrow-left" size={20} color="#333" />
+          <AntDesign name="arrowleft" size={20} color="black" />
         </TouchableOpacity>
+        <Text style={{fontSize:20}}>{item.title}</Text>
 
         <TouchableOpacity
           // onPress={() => router.push('/cart')}
           style={styles.headerIcon}>
-          <FontAwesome name="shopping-cart" size={20} color="#333" />
+          <AntDesign name="shoppingcart" size={20} color="black" />
         </TouchableOpacity>
       </View>
 
@@ -55,8 +57,10 @@ export default function MenuItemDetailScreen() {
           <Image source={{ uri: item.image }} style={styles.image} resizeMode='cover' />
         </View>
         <View style={styles.content}>
-          <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.price}>{item.price.toFixed(2)} ETB</Text>
+          <View style={{flexDirection:'row',justifyContent:'space-around',alignItems:'center',height:28}}>
+            <Text style={styles.title}>{item.title}</Text>
+            <Text style={styles.price}>{item.price.toFixed(2)} ETB</Text>
+          </View>
 
           <Text style={styles.sectionHeader}>Description</Text>
           <Text style={styles.description}>{item.description}</Text>
@@ -115,9 +119,9 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: 20,
     paddingTop: 20,
-    backgroundColor: '#d3d3d3ff',
-    borderTopStartRadius: 20,
-    borderTopEndRadius: 20,
+    backgroundColor: '#e5e5e5ff',
+    borderTopStartRadius: 30,
+    borderTopEndRadius: 30,
   },
   title: {
     fontSize: 28,
@@ -125,7 +129,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   price: {
-    fontSize: 18,
+    fontSize: 20,
     color: '#e53935',
     fontWeight: '600',
     marginBottom: 16,

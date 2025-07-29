@@ -1,0 +1,52 @@
+# Node modules 
+node_modules/
+
+# Expo frontend
+.expo/
+.expo-shared/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native (Expo)
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro bundler and cache
+.metro-health-check*
+.cache/
+
+# Backend build folders 
+build/
+dist/
+
+# Logs and debug files
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+pnpm-debug.log*
+
+# Environment files 
+.env
+.env.*
+.env*.local
+
+# macOS
+.DS_Store
+*.pem
+
+# TypeScript
+*.tsbuildinfo
+
+# Coverage folder for tests
+coverage/
+
+# IDE/editor configs
+.vscode/
+.idea/
+

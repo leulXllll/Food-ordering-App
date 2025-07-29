@@ -4,7 +4,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 interface MenuItemCardProps {
   title: string;
-  image: ImageSourcePropType;
+  image: string;
   price: number;
   onPress?: () => void;
   width: number;
@@ -14,7 +14,7 @@ interface MenuItemCardProps {
 const MenuItemCard = ({ title, image, price, onPress, width, onAddToCart }: MenuItemCardProps) => {
   return (
     <TouchableOpacity style={[styles.card, { width }]} onPress={onPress} activeOpacity={0.8}>
-      <Image source={image} style={styles.image} />
+      <Image source={{ uri: image }} style={styles.image} />
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.price}>{price.toFixed(2)} ETB</Text>
       <TouchableOpacity style={styles.cartButton} onPress={onAddToCart}>

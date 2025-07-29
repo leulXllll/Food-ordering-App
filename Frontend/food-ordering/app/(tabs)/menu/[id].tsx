@@ -12,7 +12,7 @@ export default function MenuItemDetailScreen() {
 
   return (
     <View style={styles.container}>
-      <Image source={item.image} style={styles.image} />
+      <Image source={{ uri: item.image }} style={styles.image} />
       <Text style={styles.title}>{item.title}</Text>
       <Text style={styles.price}>{item.price.toFixed(2)} ETB</Text>
       <Text style={styles.title}>{item.description}</Text>

@@ -2,7 +2,7 @@ export const menuItems = [
   {
     id: '1',
     title: 'Beyaynet',
-    image: require('../assets/MenuImages/beyaynet.webp'),
+    image: "https://res.cloudinary.com/ddtjv9xpp/image/upload/v1753769870/beyaynet_dtgiig.webp",
     price: 280,
     description: 'A traditional Ethiopian vegetarian platter served on injera with an assortment of lentils, stews, and vegetables.',
     ingredients: ['Injera', 'Lentils', 'Split peas', 'Cabbage', 'Beets', 'Carrots', 'Potatoes', 'Spinach', 'Spices'],
@@ -10,7 +10,7 @@ export const menuItems = [
   {
     id: '2',
     title: 'Burger',
-    image: require('../assets/MenuImages/burgers-sauteed.webp'),
+    image: "https://res.cloudinary.com/ddtjv9xpp/image/upload/v1753769870/gourmet-burgers-sauteed-shroom_vp0rb7.webp",
     price: 350,
     description: 'A grilled beef burger with melted cheese, fresh vegetables, and house sauce in a soft toasted bun.',
     ingredients: ['Beef patty', 'Cheese', 'Lettuce', 'Tomato', 'Onions', 'Pickles', 'Burger bun', 'House sauce'],
@@ -18,7 +18,7 @@ export const menuItems = [
   {
     id: '3',
     title: 'Shiro',
-    image: require('../assets/MenuImages/shiro.webp'),
+    image: "https://res.cloudinary.com/ddtjv9xpp/image/upload/v1753769870/ethiopian-shiro-wat-X2_h9x0cs.webp",
     price: 11.0,
     description: 'A spicy Ethiopian chickpea stew, often served with injera and enjoyed as a hearty vegetarian meal.',
     ingredients: ['Chickpea flour', 'Onions', 'Garlic', 'Berbere spice', 'Oil', 'Water', 'Salt'],
@@ -26,7 +26,7 @@ export const menuItems = [
   {
     id: '4',
     title: 'Pizza',
-    image: require('../assets/MenuImages/pizza.webp'),
+    image: "https://res.cloudinary.com/ddtjv9xpp/image/upload/v1753769870/pizza-with-salami-bell-pepper-tomatoes_sjyqyb.webp",
     price: 450,
     description: 'Classic Italian-style pizza with tomato sauce, mozzarella cheese, and your choice of toppings.',
     ingredients: ['Pizza dough', 'Tomato sauce', 'Mozzarella cheese', 'Olive oil', 'Basil'],
@@ -34,7 +34,7 @@ export const menuItems = [
   {
     id: '5',
     title: 'Kitfo',
-    image: require('../assets/MenuImages/Kitfo.webp'),
+    image: "https://res.cloudinary.com/ddtjv9xpp/image/upload/Kitfo-Ethiopian-Steak-Tartare-Recipe-6-650x850_shazb9.webp",
     price: 725,
     description: 'A beloved Ethiopian dish made with minced raw or lightly cooked beef mixed with spiced butter and mitmita.',
     ingredients: ['Minced beef', 'Niter kibbeh (spiced butter)', 'Mitmita (chili powder)', 'Salt'],
@@ -42,7 +42,7 @@ export const menuItems = [
   {
     id: '6',
     title: 'French fries',
-    image: require('../assets/MenuImages/french-fries.webp'),
+    image: "https://res.cloudinary.com/ddtjv9xpp/image/upload/v1753769869/french-fries_t2jfdj.webp",
     price: 4.0,
     description: 'Golden, crispy French fries served hot and seasoned with a pinch of salt.',
     ingredients: ['Potatoes', 'Vegetable oil', 'Salt'],

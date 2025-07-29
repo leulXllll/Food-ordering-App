@@ -1,0 +1,53 @@
+{
+  "menu": [
+    {
+      "id": "1",
+      "name": "Margherita Pizza",
+      "description": "A classic Italian pizza with a crispy crust, tomato sauce, fresh mozzarella, and basil.",
+      "ingredients": "Tomato sauce, Mozzarella, Basil, Olive oil",
+      "price": 400,
+      "image": "pizza.jpg"
+    },
+    {
+      "id": "2",
+      "name": "Beyaynetu",
+      "description": "A traditional Ethiopian vegetarian platter served with injera and a variety of lentils and vegetables.",
+      "ingredients": "Injera, Lentils, Cabbage, Beets, Carrots, Spinach",
+      "price": 170,
+      "image": "beyaynet.jpg"
+    },
+    {
+      "id": "3",
+      "name": "Shiro",
+      "description": "A delicious and spicy Ethiopian chickpea stew served with injera.",
+      "ingredients": "Chickpea flour, Onion, Garlic, Berbere spice, Oil",
+      "price": 180,
+      "image": "shiro.jpg"
+    },
+    {
+      "id": "4",
+      "name": "French Fries",
+      "description": "Crispy golden French fries served hot with ketchup or your favorite dip.",
+      "ingredients": "Potatoes, Vegetable oil, Salt",
+      "price": 200,
+      "image": "french fries.jpg"
+    },
+    {
+      "id": "5",
+      "name": "Kitfo",
+      "description": "A traditional Ethiopian dish made from minced raw beef seasoned with spices and clarified butter.",
+      "ingredients": "Minced beef, Mitmita, Niter kibbeh (clarified butter), Ayib (cheese)",
+      "price": 700,
+      "image": "kitfo.jpg"
+    },
+    {
+      "id": "6",
+      "name": "Beef Burger",
+      "description": "A juicy beef burger with lettuce, tomato, cheese, and special sauce in a toasted bun.",
+      "ingredients": "Beef patty, Lettuce, Tomato, Cheese, Bun, Sauce",
+      "price": 430,
+      "image": "burger.jpg"
+    }
+  ],
+  "orders": []
+}

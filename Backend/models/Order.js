@@ -1,0 +1,32 @@
+const mongoose = require('mongoose');
+
+const orderSchema = new mongoose.Schema({
+  items: [
+    {
+      menuItemId: {
+        type: String, // corresponds to MenuItem.id
+        required: true,
+      },
+      quantity: {
+        type: Number,
+        required: true,
+        min: 1,
+      },
+    }
+  ],
+  totalPrice: {
+    type: Number,
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'preparing', 'completed'],
+    default: 'pending',
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+module.exports = mongoose.model('Order', orderSchema);

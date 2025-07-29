@@ -1,18 +1,27 @@
 const mongoose = require('mongoose');
 
 const menuItemSchema = new mongoose.Schema({
+  id: {
+    type: String,
+    required: true,
+    unique: true,  
+  },
   name: {
     type: String,
     required: true,
   },
-  ingredients: String,
+  ingredients: {
+    type: String,
+  },
+  description: {
+    type: String,
+  },
   price: {
     type: Number,
     required: true,
   },
   image: {
     type: String, 
-    // local image file name e.g pizza.png, 
     required: true,
   },
 });

@@ -91,10 +91,13 @@ export default function TabLayout() {
           ),
         }}
       />
+       <Tabs.Screen
+        name="menu/[id]"
+        options={{
+          href: null, // hides it from the tab bar 
+        }}
+      />
     </Tabs>
   );
 }
 
-const style = StyleSheet.create({
-
-})

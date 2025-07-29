@@ -5,6 +5,7 @@ import MenuItemCard from '../../components/MenuItemCard';
 import { menuItems } from '../../constants/MenuData';
 import Header from '@/components/Header';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { useRouter } from 'expo-router';
 
 type RootStackParamList = {
   ItemDetail: { itemId: string };
@@ -16,6 +17,8 @@ type HomeScreenProps = {
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [visibleItems, setVisibleItems] = useState<typeof menuItems>([]);
+
+  const router = useRouter();
   
   const { width: screenWidth } = useWindowDimensions(); 
   
@@ -36,7 +39,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       image={item.image}
       price={item.price}
       width={cardWidth} 
-      onPress={() => navigation.navigate('ItemDetail', { itemId: item.id })}
+      onPress={() => router.push(`/menu/${item.id}`)}
     />
   );
 

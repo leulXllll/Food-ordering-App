@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter, useNavigation } from 'expo-router';
 import {
   View,
   Text,
@@ -9,48 +9,111 @@ import {
   SafeAreaView,
   Dimensions,
   Pressable,
+  ActivityIndicator, 
 } from 'react-native';
-
-import { useLayoutEffect } from 'react';
-import { useNavigation } from 'expo-router';
-import { FontAwesome } from '@expo/vector-icons';
-import { menuItems } from '@/constants/MenuData';
-import AntDesign from '@expo/vector-icons/AntDesign';
+import React, { useLayoutEffect, useEffect, useState } from 'react'; 
+import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import { useCart } from '@/contexts/CartContext';
+
+
+interface MenuItem {
+  ingredient: string;
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+}
+
+const API_URL = 'http://localhost:3000/menu'; 
 
 const { width } = Dimensions.get('window');
 
 export default function MenuItemDetailScreen() {
-  const { id } = useLocalSearchParams();
+  const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const navigation = useNavigation();
-  const item = menuItems.find((m) => m.id === id);
-  const {addItem} = useCart();
+  const { addItem, cartItems } = useCart();
 
-  if (!item) return <Text style={{ padding: 20 }}>Item not found</Text>;
+  
+  const [item, setItem] = useState<MenuItem | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleAddToCart = () => {
 
-    addItem({
-      id: item.id,
-      name: item.title,
-      price: item.price,
-      image: item.image,
-      quantity: 1,
-    })
-  };
+  useEffect(() => {
+    if (!id) {
+        setError("No item ID provided.");
+        setIsLoading(false);
+        return;
+    };
 
+    const fetchItemDetails = async () => {
+      try {
+        const response = await fetch(`${API_URL}/${id}`);
+        if (!response.ok) {
+            throw new Error(`Item not found or server error (status: ${response.status})`);
+        }
+        const data: MenuItem = await response.json();
+        setItem(data);
+      } catch (err: any) {
+        setError(err.message || "Failed to fetch item details.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchItemDetails();
+  }, [id]);
+  
+  // Hide the tab bar on this screen
   useLayoutEffect(() => {
     navigation.setOptions({
-      tabBarStyle: { display: 'none' }, // to hide tab bar
+      tabBarStyle: { display: 'none' },
     });
   }, [navigation]);
 
-      const { cartItems } = useCart();
-  
-      //  Calculate the total number of items by summing their quantities
-      const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const handleAddToCart = () => {
+    if (!item) return; 
+    addItem({
+      id: String(item.id),
+      name: item.name,
+      price: item.price,
+      image: item.image,
+      quantity: 1,
+    });
+  };
 
+  const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color="#ff6347" />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.centered}>
+        <Text style={styles.errorText}>{error}</Text>
+        <TouchableOpacity onPress={() => router.back()}>
+          <Text style={styles.backButtonText}>Go Back</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  if (!item) {
+    return (
+        <View style={styles.centered}>
+            <Text>Item not found.</Text>
+        </View>
+    );
+  }
+
+  // Render main component with fetched data
   return (
     <SafeAreaView style={styles.safeArea}>
       {/* Header bar */}
@@ -58,17 +121,16 @@ export default function MenuItemDetailScreen() {
         <TouchableOpacity onPress={() => router.back()} style={styles.headerIcon}>
           <AntDesign name="arrowleft" size={20} color="black" />
         </TouchableOpacity>
-        <Text style={{fontSize:20}}>{item.title}</Text>
+        <Text style={{ fontSize: 20 }}>{item.name}</Text>
 
-       <Pressable style={styles.buttonStyle} onPress={() => router.push('/cart')}>
-                        <AntDesign name="shoppingcart" size={23} color="black" />
-                        {/* The badge will only render if there are items in the cart */}
-                        {totalItems > 0 && (
-                            <View style={styles.badgeContainer}>
-                                <Text style={styles.badgeText}>{totalItems}</Text>
-                            </View>
-                        )}
-                    </Pressable>
+        <Pressable style={styles.buttonStyle} onPress={() => router.push('/cart')}>
+          <AntDesign name="shoppingcart" size={23} color="black" />
+          {totalItems > 0 && (
+            <View style={styles.badgeContainer}>
+              <Text style={styles.badgeText}>{totalItems}</Text>
+            </View>
+          )}
+        </Pressable>
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -76,18 +138,15 @@ export default function MenuItemDetailScreen() {
           <Image source={{ uri: item.image }} style={styles.image} resizeMode='cover' />
         </View>
         <View style={styles.content}>
-          <View style={{flexDirection:'row',justifyContent:'space-around',alignItems:'center',height:45}}>
-            <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.price}>{item.price.toFixed(2)} ETB</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingVertical: 10 }}>
+            <Text style={styles.title}>{item.name}</Text>
+            <Text style={styles.price}>${item.price.toFixed(2)}</Text>
           </View>
 
           <Text style={styles.sectionHeader}>Description</Text>
           <Text style={styles.description}>{item.description}</Text>
+          <Text style={styles.ingredient}>{item.ingredient}</Text>
 
-          <Text style={styles.sectionHeader}>Ingredients</Text>
-          {item.ingredients?.map((ingredient, index) => (
-            <Text key={index} style={styles.ingredient}>• {ingredient}</Text>
-          ))}
         </View>
       </ScrollView>
 
@@ -107,6 +166,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginTop:30,
   },
+   centered: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
+    },
+    errorText: {
+        fontSize: 18,
+        color: 'red',
+        textAlign: 'center',
+        marginBottom: 20,
+    },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -115,7 +186,11 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     backgroundColor: '#F4A940',
     zIndex: 10,
-  },
+  }, backButtonText: {
+        fontSize: 16,
+        color: '#ff6347',
+        fontWeight: 'bold',
+    },
   buttonStyle: {
         backgroundColor: '#f1eeeeff',
         padding: 8, 

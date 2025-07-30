@@ -2,14 +2,13 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, useWindowDimensions ,TextInput, Pressable} from 'react-native'; 
 
 import Svg, { Path } from 'react-native-svg';
 
 export default function Header({ title = "Explore the taste of Ethiopian Food" }) {
 
-    const [text,setText] = useState('');
     const router = useRouter();
 
     const { width: screenWidth } = useWindowDimensions();
@@ -47,17 +46,6 @@ export default function Header({ title = "Explore the taste of Ethiopian Food" }
               <MaterialIcons name="person" size={23} color='black' />
                 </Pressable>
                 </View>
-            </View>
-            <View style={{ backgroundColor: '#f5f5f5ff',marginTop:15,width:'70%',alignSelf:'center',borderRadius:10,borderWidth:1,borderBlockColor:'#185c59ff',flexDirection:'row',justifyContent:'flex-start',alignItems:'center'}}>
-                            <MaterialIcons name='search' size={20} color='black' style={{marginLeft:6}}/>
-                            <TextInput
-                            placeholder='Search for your food'
-                            style={{color:'#185c59ff',marginLeft: 6,
-                                    flex: 1,
-                                height: 40}}
-                            value={text}
-                            onChangeText={setText}
-                            />
             </View>
         </View>
     );

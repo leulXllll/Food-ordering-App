@@ -7,6 +7,7 @@ import Header from '@/components/Header';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useRouter } from 'expo-router';
 import { useCart } from '../../contexts/CartContext';
+import SearchInput from '@/components/SearchInput';
 
 type RootStackParamList = {
   ItemDetail: { itemId: string };
@@ -55,6 +56,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   return (
     <>
       <Header />
+      <SearchInput/>
       <View style={styles.container}>
         <Text style={styles.header}>Menu</Text>
         {isLoading ? (

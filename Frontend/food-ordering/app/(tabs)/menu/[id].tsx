@@ -65,7 +65,7 @@ export default function MenuItemDetailScreen() {
           <Image source={{ uri: item.image }} style={styles.image} resizeMode='cover' />
         </View>
         <View style={styles.content}>
-          <View style={{flexDirection:'row',justifyContent:'space-around',alignItems:'center',height:28}}>
+          <View style={{flexDirection:'row',justifyContent:'space-around',alignItems:'center',height:45,}}>
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.price}>{item.price.toFixed(2)} ETB</Text>
           </View>
@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: '#fff',
+    marginTop:30,
   },
   header: {
     flexDirection: 'row',
@@ -140,7 +141,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#e53935',
     fontWeight: '600',
-    marginBottom: 16,
   },
   sectionHeader: {
     fontSize: 20,
@@ -173,6 +173,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#185c59ff',
     paddingVertical: 14,
     borderRadius: 8,
+    marginBottom:35,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

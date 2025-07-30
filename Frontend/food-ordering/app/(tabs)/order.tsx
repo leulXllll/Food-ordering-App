@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <View>
       <Header/>
-        <Text>Order page</Text>
+        <Text>History Order page</Text>
     </View>
   )
 }

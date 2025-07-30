@@ -6,8 +6,8 @@ import {
     StyleSheet, 
     Image, 
     TouchableOpacity, 
-    Alert, // Import Alert for feedback
-    ActivityIndicator // Import ActivityIndicator for loading state
+    Alert, 
+    ActivityIndicator 
 } from 'react-native';
 import { useCart } from '../contexts/CartContext';
 import { useRouter } from 'expo-router';
@@ -70,7 +70,7 @@ export default function CartScreen() {
         } catch (error: any) {
             Alert.alert("Submission Failed", error.message);
         } finally {
-            setIsSubmitting(false); // R
+            setIsSubmitting(false); 
         }
     };
 

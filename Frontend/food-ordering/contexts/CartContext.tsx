@@ -17,10 +17,8 @@ type CartContextType = {
   getTotal: () => number;
 };
 
-// 1. Create the context
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-// 2. Custom hook for using the context
 export const useCart = (): CartContextType => {
   const context = useContext(CartContext);
   if (!context) {
@@ -29,7 +27,6 @@ export const useCart = (): CartContextType => {
   return context;
 };
 
-// 3. Provider component
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
@@ -51,19 +48,18 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const updateItem = (id: string, updatedFields: Partial<CartItem>) => {
   setCartItems((prevItems) =>
-    prevItems.map((item) => {
-      if (item.id !== id) return item;
+    prevItems.flatMap((item) => {
+      if (item.id !== id) return [item];
 
-      // Prevent negative quantity
-      const updatedQuantity = updatedFields.quantity !== undefined
-        ? Math.max(updatedFields.quantity, 0)
-        : item.quantity;
+      const newQuantity =
+        updatedFields.quantity !== undefined
+          ? updatedFields.quantity
+          : item.quantity;
 
-      return {
-        ...item,
-        ...updatedFields,
-        quantity: updatedQuantity,
-      };
+      if (newQuantity <= 0) {
+        return []; 
+      }
+      return [{ ...item, ...updatedFields }];
     })
   );
 };

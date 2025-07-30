@@ -27,7 +27,7 @@ router.post('/', (req, res) => {
     const orderItems = [];
 
     for (const orderItem of items) {
-      const menuItem = data.menu.find(item => item.id === orderItem.id);
+      const menuItem = data.menu.find(item => String(item.id) === String(orderItem.id));
       if (!menuItem) {
         return res.status(400).json({ message: `Menu item with ID ${orderItem.id} not found.` });
       }

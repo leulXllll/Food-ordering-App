@@ -6,7 +6,17 @@
       "image": "https://res.cloudinary.com/ddtjv9xpp/image/upload/v1753769870/beyaynet_dtgiig.webp",
       "price": 280,
       "description": "A traditional Ethiopian vegetarian platter served on injera with an assortment of lentils, stews, and vegetables.",
-      "ingredients": ["Injera", "Lentils", "Split peas", "Cabbage", "Beets", "Carrots", "Potatoes", "Spinach", "Spices"]
+      "ingredients": [
+        "Injera",
+        "Lentils",
+        "Split peas",
+        "Cabbage",
+        "Beets",
+        "Carrots",
+        "Potatoes",
+        "Spinach",
+        "Spices"
+      ]
     },
     {
       "id": "2",
@@ -14,7 +24,16 @@
       "image": "https://res.cloudinary.com/ddtjv9xpp/image/upload/v1753769870/gourmet-burgers-sauteed-shroom_vp0rb7.webp",
       "price": 350,
       "description": "A grilled beef burger with melted cheese, fresh vegetables, and house sauce in a soft toasted bun.",
-      "ingredients": ["Beef patty", "Cheese", "Lettuce", "Tomato", "Onions", "Pickles", "Burger bun", "House sauce"]
+      "ingredients": [
+        "Beef patty",
+        "Cheese",
+        "Lettuce",
+        "Tomato",
+        "Onions",
+        "Pickles",
+        "Burger bun",
+        "House sauce"
+      ]
     },
     {
       "id": "3",
@@ -22,7 +41,15 @@
       "image": "https://res.cloudinary.com/ddtjv9xpp/image/upload/v1753769870/ethiopian-shiro-wat-X2_h9x0cs.webp",
       "price": 11,
       "description": "A spicy Ethiopian chickpea stew, often served with injera and enjoyed as a hearty vegetarian meal.",
-      "ingredients": ["Chickpea flour", "Onions", "Garlic", "Berbere spice", "Oil", "Water", "Salt"]
+      "ingredients": [
+        "Chickpea flour",
+        "Onions",
+        "Garlic",
+        "Berbere spice",
+        "Oil",
+        "Water",
+        "Salt"
+      ]
     },
     {
       "id": "4",
@@ -30,7 +57,13 @@
       "image": "https://res.cloudinary.com/ddtjv9xpp/image/upload/v1753769870/pizza-with-salami-bell-pepper-tomatoes_sjyqyb.webp",
       "price": 450,
       "description": "Classic Italian-style pizza with tomato sauce, mozzarella cheese, and your choice of toppings.",
-      "ingredients": ["Pizza dough", "Tomato sauce", "Mozzarella cheese", "Olive oil", "Basil"]
+      "ingredients": [
+        "Pizza dough",
+        "Tomato sauce",
+        "Mozzarella cheese",
+        "Olive oil",
+        "Basil"
+      ]
     },
     {
       "id": "5",
@@ -38,7 +71,12 @@
       "image": "https://res.cloudinary.com/ddtjv9xpp/image/upload/Kitfo-Ethiopian-Steak-Tartare-Recipe-6-650x850_shazb9.webp",
       "price": 725,
       "description": "A beloved Ethiopian dish made with minced raw or lightly cooked beef mixed with spiced butter and mitmita.",
-      "ingredients": ["Minced beef", "Niter kibbeh (spiced butter)", "Mitmita (chili powder)", "Salt"]
+      "ingredients": [
+        "Minced beef",
+        "Niter kibbeh (spiced butter)",
+        "Mitmita (chili powder)",
+        "Salt"
+      ]
     },
     {
       "id": "6",
@@ -46,8 +84,110 @@
       "image": "https://res.cloudinary.com/ddtjv9xpp/image/upload/v1753769869/french-fries_t2jfdj.webp",
       "price": 4,
       "description": "Golden, crispy French fries served hot and seasoned with a pinch of salt.",
-      "ingredients": ["Potatoes", "Vegetable oil", "Salt"]
+      "ingredients": [
+        "Potatoes",
+        "Vegetable oil",
+        "Salt"
+      ]
     }
   ],
-  "orders": []
+  "orders": [
+    {
+      "id": 1753903331884,
+      "items": [
+        {
+          "itemId": "2",
+          "quantity": 1,
+          "price": 350
+        },
+        {
+          "itemId": "1",
+          "quantity": 1,
+          "price": 280
+        },
+        {
+          "itemId": "4",
+          "quantity": 1,
+          "price": 450
+        }
+      ],
+      "totalPrice": 1080,
+      "status": "pending",
+      "createdAt": "2025-07-30T19:22:11.884Z"
+    },
+    {
+      "id": 1753903352072,
+      "items": [
+        {
+          "itemId": "2",
+          "quantity": 1,
+          "price": 350
+        },
+        {
+          "itemId": "4",
+          "quantity": 1,
+          "price": 450
+        },
+        {
+          "itemId": "3",
+          "quantity": 1,
+          "price": 11
+        },
+        {
+          "itemId": "1",
+          "quantity": 4,
+          "price": 280
+        }
+      ],
+      "totalPrice": 1931,
+      "status": "pending",
+      "createdAt": "2025-07-30T19:22:32.072Z"
+    },
+    {
+      "id": 1753903410082,
+      "items": [
+        {
+          "itemId": "3",
+          "quantity": 1,
+          "price": 11
+        },
+        {
+          "itemId": "4",
+          "quantity": 1,
+          "price": 450
+        },
+        {
+          "itemId": "2",
+          "quantity": 1,
+          "price": 350
+        }
+      ],
+      "totalPrice": 811,
+      "status": "pending",
+      "createdAt": "2025-07-30T19:23:30.082Z"
+    },
+    {
+      "id": 1753903480136,
+      "items": [
+        {
+          "itemId": "2",
+          "quantity": 1,
+          "price": 350
+        },
+        {
+          "itemId": "3",
+          "quantity": 1,
+          "price": 11
+        },
+        {
+          "itemId": "4",
+          "quantity": 1,
+          "price": 450
+        }
+      ],
+      "totalPrice": 811,
+      "status": "pending",
+      "createdAt": "2025-07-30T19:24:40.136Z"
+    }
+  ]
 }

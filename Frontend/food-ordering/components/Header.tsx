@@ -1,17 +1,21 @@
 import AntDesign from '@expo/vector-icons/AntDesign';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { View, Text, StyleSheet, useWindowDimensions ,TextInput, Pressable} from 'react-native'; 
-
+import { View, Text, StyleSheet, useWindowDimensions, Pressable } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
+
+import { useCart } from '../contexts/CartContext';
+
 export default function Header({ title = "Explore the taste of Ethiopian Food" }) {
-
     const router = useRouter();
-
     const { width: screenWidth } = useWindowDimensions();
+
+    const { cartItems } = useCart();
+
+    //  Calculate the total number of items by summing their quantities
+    const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
     return (
         <View style={styles.container}>
@@ -19,7 +23,7 @@ export default function Header({ title = "Explore the taste of Ethiopian Food" }
             <View style={styles.curveContainer}>
                 <Svg
                     height="100%"
-                    width={screenWidth} 
+                    width={screenWidth}
                     viewBox={`0 0 ${screenWidth} 200`}
                 >
                     <Path
@@ -38,13 +42,19 @@ export default function Header({ title = "Explore the taste of Ethiopian Food" }
             {/* Text and Content */}
             <View style={styles.content}>
                 <Text style={styles.title}>{title}</Text>
-                <View style={{flexDirection:'row',justifyContent:'space-around',width:100}}>
-                <Pressable style={styles.buttonStyle} onPress={()=>router.push('/cart')}>
-                    <AntDesign name="shoppingcart" size={23} color="black" />                    
-                </Pressable>
-                <Pressable style={styles.buttonStyle} onPress={()=>router.push('/person')}>
-              <MaterialIcons name="person" size={23} color='black' />
-                </Pressable>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: 100 }}>
+                    <Pressable style={styles.buttonStyle} onPress={() => router.push('/cart')}>
+                        <AntDesign name="shoppingcart" size={23} color="black" />
+                        {/* The badge will only render if there are items in the cart */}
+                        {totalItems > 0 && (
+                            <View style={styles.badgeContainer}>
+                                <Text style={styles.badgeText}>{totalItems}</Text>
+                            </View>
+                        )}
+                    </Pressable>
+                    <Pressable style={styles.buttonStyle} onPress={() => router.push('/person')}>
+                        <MaterialIcons name="person" size={23} color='black' />
+                    </Pressable>
                 </View>
             </View>
         </View>
@@ -67,23 +77,41 @@ const styles = StyleSheet.create({
     },
     content: {
         paddingTop: 60,
-        justifyContent:'space-between',
-        flexDirection:'row',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
         paddingHorizontal: 20,
     },
-
     title: {
         fontSize: 20,
         fontWeight: 'bold',
         color: '#000',
-        width:'50%'
+        width: '50%'
     },
-    buttonStyle:{
-        backgroundColor:'#f1eeeeff',
-        paddingVertical:2,
-        paddingHorizontal:9,
-        justifyContent:'center',
-        alignItems:'center',
-        borderRadius:"35%"
+    buttonStyle: {
+        backgroundColor: '#f1eeeeff',
+        padding: 8, 
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 25, 
+        width: 42, 
+        height: 42,
+    },
+    badgeContainer: {
+        position: 'absolute',
+        top: -5,
+        right: -5,
+        backgroundColor: 'red',
+        borderRadius: 12,
+        width: 24,
+        height: 24,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 2,
+        borderColor: '#f1eeeeff', 
+    },
+    badgeText: {
+        color: 'white',
+        fontSize: 12,
+        fontWeight: 'bold',
     }
 });

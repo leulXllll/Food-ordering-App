@@ -8,7 +8,9 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Dimensions,
+  Pressable,
 } from 'react-native';
+
 import { useLayoutEffect } from 'react';
 import { useNavigation } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
@@ -44,6 +46,11 @@ export default function MenuItemDetailScreen() {
     });
   }, [navigation]);
 
+      const { cartItems } = useCart();
+  
+      //  Calculate the total number of items by summing their quantities
+      const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
   return (
     <SafeAreaView style={styles.safeArea}>
       {/* Header bar */}
@@ -53,11 +60,15 @@ export default function MenuItemDetailScreen() {
         </TouchableOpacity>
         <Text style={{fontSize:20}}>{item.title}</Text>
 
-        <TouchableOpacity
-          onPress={() => router.push('/cart')}
-          style={styles.headerIcon}>
-          <AntDesign name="shoppingcart" size={20} color="black" />
-        </TouchableOpacity>
+       <Pressable style={styles.buttonStyle} onPress={() => router.push('/cart')}>
+                        <AntDesign name="shoppingcart" size={23} color="black" />
+                        {/* The badge will only render if there are items in the cart */}
+                        {totalItems > 0 && (
+                            <View style={styles.badgeContainer}>
+                                <Text style={styles.badgeText}>{totalItems}</Text>
+                            </View>
+                        )}
+                    </Pressable>
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -65,7 +76,7 @@ export default function MenuItemDetailScreen() {
           <Image source={{ uri: item.image }} style={styles.image} resizeMode='cover' />
         </View>
         <View style={styles.content}>
-          <View style={{flexDirection:'row',justifyContent:'space-around',alignItems:'center',height:45,}}>
+          <View style={{flexDirection:'row',justifyContent:'space-around',alignItems:'center',height:45}}>
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.price}>{item.price.toFixed(2)} ETB</Text>
           </View>
@@ -105,6 +116,33 @@ const styles = StyleSheet.create({
     backgroundColor: '#F4A940',
     zIndex: 10,
   },
+  buttonStyle: {
+        backgroundColor: '#f1eeeeff',
+        padding: 8, 
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 25, 
+        width: 42, 
+        height: 42,
+    },
+    badgeContainer: {
+        position: 'absolute',
+        top: -5,
+        right: -5,
+        backgroundColor: 'red',
+        borderRadius: 12,
+        width: 24,
+        height: 24,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 2,
+        borderColor: '#f1eeeeff', 
+    },
+    badgeText: {
+        color: 'white',
+        fontSize: 12,
+        fontWeight: 'bold',
+    },
   headerIcon: {
     padding: 8,
     borderRadius: 10,

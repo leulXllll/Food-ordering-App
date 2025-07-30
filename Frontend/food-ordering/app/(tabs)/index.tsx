@@ -1,95 +1,121 @@
 import React, { useEffect, useState } from 'react';
-
-import { View, Text, FlatList, StyleSheet, ActivityIndicator, useWindowDimensions } from 'react-native';
+import { View, Text, FlatList, StyleSheet, ActivityIndicator, useWindowDimensions, Alert } from 'react-native';
 import MenuItemCard from '../../components/MenuItemCard';
-import { menuItems } from '../../constants/MenuData';
 import Header from '@/components/Header';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useRouter } from 'expo-router';
 import { useCart } from '../../contexts/CartContext';
 import SearchInput from '@/components/SearchInput';
 
-type RootStackParamList = {
-  ItemDetail: { itemId: string };
-};
-type HomeScreenProps = {
-  navigation: StackNavigationProp<RootStackParamList, 'ItemDetail'>;
-};
+interface MenuItem {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+}
 
-const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+
+const API_URL = 'http://127.0.0.1:3000/menu'; 
+
+const HomeScreen: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [visibleItems, setVisibleItems] = useState<typeof menuItems>([]);
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-  const router = useRouter();
-  
-  const { width: screenWidth } = useWindowDimensions(); 
-  
-  
-  const cardWidth = (screenWidth - 48) / 2; 
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setVisibleItems(menuItems);
-      setIsLoading(false);
-    }, 1500);
-    return () => clearTimeout(timeout);
-  }, []);
+  const { width: screenWidth } = useWindowDimensions();
+  const cardWidth = (screenWidth - 48) / 2;
   const { addItem } = useCart();
 
-  const renderItem = ({ item }: { item: typeof menuItems[0] }) => (
+  useEffect(() => {
+    const fetchMenuData = async () => {
+      try {
+        const response = await fetch(API_URL);
+        if (!response.ok) {
+          throw new Error('Failed to fetch menu items. Please check the server.');
+        }
+        const data: MenuItem[] = await response.json();
+        setMenuItems(data);
+      } catch (err: any) {
+        setError(err.message || 'An unexpected error occurred.');
+        Alert.alert("Error", err.message || 'Could not connect to the server.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchMenuData();
+  }, []);
+
+  const renderItem = ({ item }: { item: MenuItem }) => (
     <MenuItemCard
-      title={item.title}
-      image={item.image}
+      title={item.name}
+      image={item.image } 
       price={item.price}
-      width={cardWidth} 
-      id={item.id}
+      width={cardWidth}
+      id={String(item.id)} 
       onAddToCart={() => addItem({
-    id: item.id,
-    name: item.title, 
-    price: item.price,
-    image: item.image,
-    quantity: 1, 
-  })}
+        id: String(item.id),
+        name: item.name,
+        price: item.price,
+        image: item.image,
+        quantity: 1,
+      })}
     />
   );
+  
+  const renderContent = () => {
+    if (isLoading) {
+      return <ActivityIndicator size="large" color="#ff6347" style={{ marginTop: 50 }} />;
+    }
+
+    if (error) {
+      return <Text style={styles.errorText}>Error: {error}</Text>;
+    }
+    
+    return (
+        <FlatList
+          data={menuItems}
+          renderItem={renderItem}
+          keyExtractor={(item) => String(item.id)}
+          numColumns={2}
+          columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: 16 }}
+          contentContainerStyle={{ paddingBottom: 120 }}
+          showsVerticalScrollIndicator={false}
+        />
+    );
+  };
+
 
   return (
     <>
       <Header />
-      <SearchInput/>
+      <SearchInput />
       <View style={styles.container}>
         <Text style={styles.header}>Menu</Text>
-        {isLoading ? (
-          <ActivityIndicator size="large" color="#ff6347" style={{ marginTop: 50 }} />
-        ) : (
-          <FlatList
-            data={visibleItems}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id}
-            numColumns={2}
-            columnWrapperStyle={{ justifyContent: 'space-between', marginBottom: 16 }}
-            contentContainerStyle={{ paddingBottom: 120 }}
-            showsVerticalScrollIndicator={false}
-          />
-        )}
+        {renderContent()}
       </View>
     </>
   );
 };
 
-export default HomeScreen;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 40,
     paddingHorizontal: 16,
     backgroundColor: '#fff',
-    // backgroundColor: '#185c59ff',
   },
   header: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 12,
+    marginVertical: 16,
+  },
+  errorText: {
+    textAlign: 'center',
+    marginTop: 50,
+    color: 'red',
+    fontSize: 16,
   },
 });
+
+
+export default HomeScreen;

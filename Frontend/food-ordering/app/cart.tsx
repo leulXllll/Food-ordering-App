@@ -2,33 +2,48 @@ import React from 'react';
 import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useCart } from '../contexts/CartContext';
 import { useRouter } from 'expo-router';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 export default function CartScreen() {
   const { cartItems, removeItem, updateItem, getTotal, clearCart } = useCart();
   const router = useRouter();
+    const handleOrderNow = () => {
+  if (cartItems.length === 0) {
+    alert("Your cart is empty.");
+    return;
+  }
+
+
+  alert("Order placed successfully!");
+
+  clearCart(); 
+  router.push("/order"); 
+};
 
   const renderItem = ({ item }: any) => (
-    <View style={styles.itemContainer}>
-      <Image source={{ uri: item.image }} style={styles.image} />
-      <View style={styles.info}>
-        <Text style={styles.name}>{item.name}</Text>
-        <Text>{item.quantity} x {item.price} ETB</Text>
-        <Text style={styles.total}>{item.price * item.quantity} ETB</Text>
+  <View style={styles.itemContainer}>
+    <Image source={{ uri: item.image }} style={styles.image} />
+    <View style={styles.info}>
+      <Text style={styles.name}>{item.name}</Text>
+      <Text>{item.quantity} x {item.price} ETB</Text>
+      <Text style={styles.total}>{item.price * item.quantity} ETB</Text>
 
-        <View style={styles.actions}>
-          <TouchableOpacity onPress={() => updateItem(item.id, { quantity: item.quantity - 1 })}>
-            <Text style={styles.actionText}>-</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => updateItem(item.id, { quantity: item.quantity + 1 })}>
-            <Text style={styles.actionText}>+</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => removeItem(item.id)}>
-            <Text style={[styles.actionText, { color: 'red' }]}>Remove</Text>
-          </TouchableOpacity>
-        </View>
+      <View style={styles.actions}>
+        <TouchableOpacity onPress={() => updateItem(item.id, { quantity: item.quantity - 1 })}>
+          <FontAwesome name="minus" size={20} color="#333" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => updateItem(item.id, { quantity: item.quantity + 1 })}>
+          <FontAwesome name="plus" size={20} color="#333" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => removeItem(item.id)}>
+          <FontAwesome name="trash" size={20} color="red" />
+        </TouchableOpacity>
       </View>
     </View>
-  );
+  </View>
+);
+
+  
 
   return (
     <View style={styles.container}>
@@ -46,11 +61,19 @@ export default function CartScreen() {
           />
 
           <View style={styles.footer}>
-            <Text style={styles.totalText}>Total: {getTotal().toFixed(2)} ETB</Text>
-            <TouchableOpacity style={styles.clearButton} onPress={clearCart}>
-              <Text style={{ color: 'white' }}>Clear Cart</Text>
-            </TouchableOpacity>
-          </View>
+  <Text style={styles.totalText}>Total: {getTotal().toFixed(2)} ETB</Text>
+
+  <View style={styles.footerButtons}>
+    <TouchableOpacity style={styles.clearButton} onPress={clearCart}>
+      <Text style={{ color: 'white' }}>Clear Cart</Text>
+    </TouchableOpacity>
+
+    <TouchableOpacity style={styles.orderButton} onPress={handleOrderNow}>
+      <Text style={{ color: 'white' }}>Order Now</Text>
+    </TouchableOpacity>
+  </View>
+</View>
+
         </>
       )}
     </View>
@@ -91,12 +114,6 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     marginTop: 4,
   },
-  actions: {
-    flexDirection: 'row',
-    marginTop: 8,
-    gap: 16,
-    alignItems: 'center',
-  },
   actionText: {
     fontSize: 16,
     fontWeight: 'bold',
@@ -107,6 +124,13 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: '#ccc',
   },
+  actions: {
+  flexDirection: 'row',
+  marginTop: 8,
+  gap: 16,
+  alignItems: 'center',
+  justifyContent: 'flex-end', // pushes icons to right
+},
   totalText: {
     fontSize: 18,
     fontWeight: 'bold',
@@ -118,4 +142,19 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     alignItems: 'center',
   },
+  footerButtons: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  gap: 10,
+  marginTop: 10,
+},
+
+orderButton: {
+  backgroundColor: '#2e7d32', 
+  padding: 10,
+  borderRadius: 6,
+  alignItems: 'center',
+  flex: 1,
+},
+
 });

@@ -6,6 +6,7 @@ import { menuItems } from '../../constants/MenuData';
 import Header from '@/components/Header';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useRouter } from 'expo-router';
+import { useCart } from '../../contexts/CartContext';
 
 type RootStackParamList = {
   ItemDetail: { itemId: string };
@@ -32,6 +33,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     }, 1500);
     return () => clearTimeout(timeout);
   }, []);
+  const { addItem } = useCart();
 
   const renderItem = ({ item }: { item: typeof menuItems[0] }) => (
     <MenuItemCard
@@ -39,7 +41,14 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       image={item.image}
       price={item.price}
       width={cardWidth} 
-      onPress={() => router.push(`/menu/${item.id}`)}
+      id={item.id}
+      onAddToCart={() => addItem({
+    id: item.id,
+    name: item.title, 
+    price: item.price,
+    image: item.image,
+    quantity: 1, 
+  })}
     />
   );
 

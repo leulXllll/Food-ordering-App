@@ -1,25 +1,56 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, ImageSourcePropType } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  GestureResponderEvent,
+} from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { useRouter } from 'expo-router';
 
 interface MenuItemCardProps {
   title: string;
   image: string;
   price: number;
-  onPress?: () => void;
+  id: string;
   width: number;
   onAddToCart?: () => void;
 }
 
-const MenuItemCard = ({ title, image, price, onPress, width, onAddToCart }: MenuItemCardProps) => {
+const MenuItemCard = ({ title, image, price, width, id, onAddToCart }: MenuItemCardProps) => {
+  const router = useRouter();
+
+  const onCardPress = () => {
+    router.push(`/menu/${id}`);
+  };
+
+  
+  const onAddToCartPress = (e: GestureResponderEvent) => {
+    e.stopPropagation();
+    if (onAddToCart) {
+      onAddToCart();
+    }
+  };
+
   return (
-    <TouchableOpacity style={[styles.card, { width }]} onPress={onPress} activeOpacity={0.8}>
+    <TouchableOpacity
+      style={[styles.card, { width }]}
+      onPress={onCardPress}
+      activeOpacity={0.8}
+    >
       <Image source={{ uri: image }} style={styles.image} />
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.price}>{price.toFixed(2)} ETB</Text>
-      <TouchableOpacity style={styles.cartButton} onPress={onAddToCart}>
-        <FontAwesome name="shopping-basket" size={10} color="white" />
-        <Text style={styles.cartButtonText}>Add to Cart</Text>  
+
+      <TouchableOpacity
+        style={styles.cartButton}
+        onPress={onAddToCartPress}
+        activeOpacity={0.7}
+      >
+        <FontAwesome name="shopping-basket" size={14} color="white" />
+        <Text style={styles.cartButtonText}>Add to Cart</Text>
       </TouchableOpacity>
     </TouchableOpacity>
   );
@@ -29,7 +60,7 @@ export default MenuItemCard;
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#f0f0f0', // temporary gray background for debugging
+    backgroundColor: '#f0f0f0',
     padding: 12,
     borderRadius: 10,
     alignItems: 'center',

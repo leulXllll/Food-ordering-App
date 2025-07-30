@@ -14,6 +14,7 @@ import { useNavigation } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 import { menuItems } from '@/constants/MenuData';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { useCart } from '@/contexts/CartContext';
 
 const { width } = Dimensions.get('window');
 
@@ -22,12 +23,19 @@ export default function MenuItemDetailScreen() {
   const router = useRouter();
   const navigation = useNavigation();
   const item = menuItems.find((m) => m.id === id);
+  const {addItem} = useCart();
 
   if (!item) return <Text style={{ padding: 20 }}>Item not found</Text>;
 
   const handleAddToCart = () => {
 
-    alert(`${item.title} added to cart`);
+    addItem({
+      id: item.id,
+      name: item.title,
+      price: item.price,
+      image: item.image,
+      quantity: 1,
+    })
   };
 
   useLayoutEffect(() => {
@@ -46,7 +54,7 @@ export default function MenuItemDetailScreen() {
         <Text style={{fontSize:20}}>{item.title}</Text>
 
         <TouchableOpacity
-          // onPress={() => router.push('/cart')}
+          onPress={() => router.push('/cart')}
           style={styles.headerIcon}>
           <AntDesign name="shoppingcart" size={20} color="black" />
         </TouchableOpacity>

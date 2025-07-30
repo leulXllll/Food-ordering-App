@@ -50,12 +50,24 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const updateItem = (id: string, updatedFields: Partial<CartItem>) => {
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === id ? { ...item, ...updatedFields } : item
-      )
-    );
-  };
+  setCartItems((prevItems) =>
+    prevItems.map((item) => {
+      if (item.id !== id) return item;
+
+      // Prevent negative quantity
+      const updatedQuantity = updatedFields.quantity !== undefined
+        ? Math.max(updatedFields.quantity, 0)
+        : item.quantity;
+
+      return {
+        ...item,
+        ...updatedFields,
+        quantity: updatedQuantity,
+      };
+    })
+  );
+};
+
 
   const clearCart = () => setCartItems([]);
 
